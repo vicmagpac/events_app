@@ -5,7 +5,7 @@ import styles from '@/styles/Home.module.css'
 
 const inter = Inter({ subsets: ['latin'] })
 
-export default function Home({title}) {
+export default function Home({ data }) {
   return (
     <>
       <Head>
@@ -24,27 +24,12 @@ export default function Home({title}) {
       </header>
   
       <main className={styles.main}>
-        <a href="/events/london">
-          <img />
-          <h2>Event in London</h2>
-          <p>
-            It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).
-          </p>
-        </a>
-        <a href="">
-          <img />
-          <h2>Event in San Francisco</h2>
-          <p>
-            It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).
-          </p>
-        </a>
-        <a href="">
-          <img />
-          <h2>Event in Barcelona</h2>
-          <p>
-            It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).
-          </p>
-        </a>
+        {data.map((ev) => ( 
+          <a key={ev.id} href={`/events/${ev.id}`}>
+            <Image alt={ev.title} src={ev.image} width={500} height={500}/>
+            <h2>{ev.title}</h2>
+          </a>
+        ))}
       </main>
     </>
   )
@@ -53,11 +38,10 @@ export default function Home({title}) {
 
 export async function getServerSideProps() {
 
-  const data = await import('data/data.json');
-  console.log(data);
+  const { events_categories } = await import('data/data.json');
   return {
     props: {
-      title: 'Hello everione!'
+      data: events_categories,
     },
   };
 }

@@ -1,4 +1,4 @@
-const EventsCatPage = () => {
+const EventsCatPage = ({ data }) => {
   return (
     <div>
       <h1>Events EventsCatPage</h1>
@@ -19,3 +19,32 @@ const EventsCatPage = () => {
 };
 
 export default EventsCatPage;
+
+export async function getStaticPaths() {
+
+  const { events_categories } = await import('data/data.json');
+  const allPaths = events_categories.map(ev => {
+    return {
+      params: {
+        cat: ev.id.toString(),
+      }
+    }
+  });
+
+  return {
+    path: [
+      allPaths
+    ]
+  }
+}
+
+// export async function getStaticProps() {
+
+//   const { allEvents } = await import('data/data.json');
+
+//   return {
+//     props: {
+//       data: allEvents
+//     }
+//   }
+// }
